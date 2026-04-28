@@ -1,0 +1,38 @@
+{{define "experience-detail.html"}}
+<article class="exp-card" aria-live="polite">
+    <header class="flex items-start gap-4 mb-4">
+        {{if .LogoSrc}}
+        {{/* Lock height, let width track the image's natural aspect ratio (capped). */}}
+        {{/* Square logos stay 48×48; wide logos grow horizontally up to max-w. */}}
+        <img src="{{.LogoSrc}}" alt="{{.Company}} logo"
+             class="h-12 w-auto max-w-[140px] rounded-md border border-violet-500/20 bg-ink-700 px-2 py-1.5 object-contain flex-shrink-0">
+        {{end}}
+        <div class="flex-1 min-w-0">
+            <div class="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                <h3 class="font-display font-bold text-xl text-zinc-100">{{.Role}}</h3>
+                <span class="text-violet-300">@</span>
+                <span class="font-display font-bold text-xl text-violet-200">{{.Company}}</span>
+            </div>
+            <p class="text-xs uppercase tracking-widest text-zinc-500 mt-1">
+                {{.Period}}{{if .Location}} · {{.Location}}{{end}}
+            </p>
+        </div>
+    </header>
+
+    {{if .Summary}}
+    <p class="text-zinc-300 mb-4 leading-relaxed">{{.Summary}}</p>
+    {{end}}
+
+    {{if .Bullets}}
+    <ul class="exp-bullets text-sm">
+        {{range .Bullets}}<li>{{.}}</li>{{end}}
+    </ul>
+    {{end}}
+
+    {{if .Tech}}
+    <div class="mt-5 pt-4 border-t border-violet-500/10 flex flex-wrap gap-1.5">
+        {{range .Tech}}<span class="tag">{{.}}</span>{{end}}
+    </div>
+    {{end}}
+</article>
+{{end}}

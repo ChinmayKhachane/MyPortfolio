@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{.Name}} · {{.Tagline}}</title>
+    <meta name="description" content="{{.Name}} — {{.Tagline}}">
+    <meta name="color-scheme" content="dark">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/htmx.org@2.0.3"></script>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
+                        display: ['"Space Grotesk"', 'system-ui', 'sans-serif'],
+                    },
+                    colors: {
+                        ink: {
+                            900: '#0a0612',
+                            800: '#120a1f',
+                            700: '#1a0f2e',
+                            600: '#241640',
+                        },
+                        violet: { 350: '#b48dff', 450: '#9a6cff' },
+                    },
+                    boxShadow: {
+                        glow: '0 0 32px -8px rgba(168,85,247,0.55)',
+                    },
+                },
+            },
+        };
+    </script>
+</head>
+<body class="bg-ink-900 text-zinc-200 font-mono antialiased selection:bg-violet-500/40 selection:text-white">
+
+<div class="grid-bg fixed inset-0 -z-10 pointer-events-none"></div>
+<div class="fixed inset-0 -z-10 pointer-events-none bg-[radial-gradient(ellipse_at_top,_rgba(139,92,246,0.18),_transparent_60%)]"></div>
+
+<!-- ============= NAV ============= -->
+<header class="sticky top-0 z-30 backdrop-blur-md bg-ink-900/70 border-b border-violet-500/10">
+    <nav class="mx-auto max-w-5xl px-6 h-14 flex items-center justify-between text-sm">
+        <a href="#top" class="flex items-center gap-2 group">
+            <span class="text-violet-400 group-hover:text-violet-300 transition">~/</span>
+            <span class="font-display font-bold tracking-tight text-zinc-100 group-hover:text-white">{{.Handle}}</span>
+            <span class="cursor-blink text-violet-400">_</span>
+        </a>
+        <ul class="hidden md:flex items-center gap-1 text-zinc-400">
+            <li><a class="nav-link" href="#about"><span class="text-violet-400">./</span>about</a></li>
+            <li><a class="nav-link" href="#socials"><span class="text-violet-400">./</span>socials</a></li>
+            <li><a class="nav-link" href="#experience"><span class="text-violet-400">./</span>experience</a></li>
+            <li><a class="nav-link" href="#projects"><span class="text-violet-400">./</span>projects</a></li>
+        </ul>
+        <a href="{{.GitHubURL}}" target="_blank" rel="noopener" class="hidden sm:inline-flex items-center gap-2 px-3 py-1.5 rounded-md border border-violet-500/30 text-violet-300 hover:bg-violet-500/10 hover:border-violet-400 hover:shadow-glow transition">
+            github
+            <span aria-hidden="true">↗</span>
+        </a>
+    </nav>
+</header>
+
+<main id="top" class="mx-auto max-w-5xl px-6">
+
+<!-- ============= HERO ============= -->
+<section class="pt-20 pb-24 md:pt-32 md:pb-40">
+    <p class="text-violet-400 text-xs uppercase tracking-[0.3em] mb-6">
+        <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 mr-2 animate-pulse"></span>
+        online · accepting interesting problems
+    </p>
+    <h1 class="font-display font-bold text-5xl md:text-7xl lg:text-8xl leading-[0.95] tracking-tight">
+        <span class="block text-zinc-500 text-2xl md:text-3xl mb-2 font-mono font-normal">$ whoami</span>
+        <span class="bg-gradient-to-br from-white via-violet-200 to-violet-450 bg-clip-text text-transparent">{{.Name}}</span>
+    </h1>
+    <p class="mt-6 text-zinc-400 text-lg md:text-xl max-w-2xl">
+        <span class="text-violet-400">»</span> {{.Tagline}}
+    </p>
+    <div class="mt-10 flex flex-wrap gap-2">
+        {{range .Interests}}
+        <span class="chip">{{.}}</span>
+        {{end}}
+    </div>
+</section>
+
+<!-- ============= ABOUT ============= -->
+<section id="about" class="py-20 border-t border-violet-500/10">
+    {{template "section-heading" dict "Index" "01" "Cmd" "cat about.md" "Title" "About Me"}}
+    <div class="grid md:grid-cols-3 gap-10">
+        <div class="md:col-span-2">
+            <p class="text-zinc-300 text-lg leading-relaxed">
+                {{.About}}
+            </p>
+            <p class="mt-4 text-zinc-400 leading-relaxed">
+                Based out of <span class="text-violet-300">{{.Location}}</span>. When I'm not pushing code, I'm probably
+                playing Deadlock or hunting for a new coffee spot.
+            </p>
+        </div>
+        <aside class="rounded-lg border border-violet-500/20 bg-ink-800/60 p-5 text-sm">
+            <div class="flex items-center justify-between mb-3 text-xs text-zinc-500">
+                <span>~/status.json</span>
+                <span class="flex gap-1">
+                    <span class="w-2.5 h-2.5 rounded-full bg-rose-500/80"></span>
+                    <span class="w-2.5 h-2.5 rounded-full bg-amber-400/80"></span>
+                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-400/80"></span>
+                </span>
+            </div>
+            <pre class="text-zinc-300 leading-relaxed"><span class="text-violet-300">{</span>
+  <span class="text-fuchsia-300">"role"</span>: <span class="text-emerald-300">"software engineer"</span>,
+  <span class="text-fuchsia-300">"stack"</span>: <span class="text-emerald-300">["go","python","sql"]</span>,
+  <span class="text-fuchsia-300">"caffeine"</span>: <span class="text-amber-300">300</span>,
+  <span class="text-fuchsia-300">"open_to_work"</span>: <span class="text-amber-300">true</span>
+<span class="text-violet-300">}</span></pre>
+        </aside>
+    </div>
+</section>
+
+<!-- ============= SOCIALS ============= -->
+<section id="socials" class="py-20 border-t border-violet-500/10">
+    {{template "section-heading" dict "Index" "02" "Cmd" "ls ./socials" "Title" "Find Me"}}
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {{range .Socials}}
+        <a href="{{.URL}}" target="_blank" rel="noopener" class="social-card group">
+            <span class="social-icon">{{.Icon}}</span>
+            <div class="flex-1 min-w-0">
+                <div class="text-xs uppercase tracking-widest text-violet-400">{{.Label}}</div>
+                <div class="truncate text-zinc-200 group-hover:text-white transition">{{.Handle}}</div>
+            </div>
+            <span class="text-zinc-600 group-hover:text-violet-300 transition" aria-hidden="true">↗</span>
+        </a>
+        {{end}}
+    </div>
+</section>
+
+<!-- ============= EXPERIENCE ============= -->
+<section id="experience" class="py-20 border-t border-violet-500/10">
+    {{template "section-heading" dict "Index" "03" "Cmd" "git log --author=me" "Title" "Work Experience"}}
+    <div class="grid md:grid-cols-[220px_1fr] gap-6 md:gap-10">
+        <ul role="tablist" aria-label="experiences" class="flex md:flex-col gap-1 overflow-x-auto md:overflow-visible">
+            {{range $i, $e := .Experiences}}
+            <li>
+                <button
+                    role="tab"
+                    class="exp-tab {{if eq $i 0}}exp-tab-active{{end}}"
+                    hx-get="/experience/{{.ID}}"
+                    hx-target="#exp-detail"
+                    hx-swap="innerHTML"
+                    hx-on:click="document.querySelectorAll('.exp-tab').forEach(b => b.classList.remove('exp-tab-active')); this.classList.add('exp-tab-active');"
+                >
+                    <span class="text-violet-500/60 mr-2">›</span>{{.Company}}
+                </button>
+            </li>
+            {{end}}
+        </ul>
+        <div id="exp-detail" class="min-h-[280px]">
+            {{template "experience-detail.html" (index .Experiences 0)}}
+        </div>
+    </div>
+</section>
+
+<!-- ============= PROJECTS ============= -->
+<section id="projects" class="py-20 border-t border-violet-500/10">
+    {{template "section-heading" dict "Index" "04" "Cmd" "ls ./projects --recursive" "Title" "Projects"}}
+    <div class="grid sm:grid-cols-2 gap-4 mb-8">
+        {{range .Projects}}
+        <a href="{{.URL}}" target="_blank" rel="noopener" class="project-card group">
+            <div class="flex items-start justify-between gap-3">
+                <h3 class="font-display font-bold text-lg text-zinc-100 group-hover:text-violet-200 transition">
+                    <span class="text-violet-400 mr-1">»</span>{{.Name}}
+                </h3>
+                <span class="text-zinc-600 group-hover:text-violet-300 transition" aria-hidden="true">↗</span>
+            </div>
+            <p class="text-sm text-zinc-400 mt-2 leading-relaxed">{{.Desc}}</p>
+            <div class="mt-3 flex flex-wrap gap-1.5">
+                {{range .Tags}}<span class="tag">{{.}}</span>{{end}}
+            </div>
+        </a>
+        {{end}}
+    </div>
+    <a href="{{.GitHubURL}}" target="_blank" rel="noopener"
+       class="inline-flex items-center gap-3 px-5 py-3 rounded-md border border-violet-400/40 bg-violet-500/5 text-violet-200 hover:bg-violet-500/15 hover:border-violet-300 hover:shadow-glow transition font-medium">
+        <span class="text-violet-400">$</span>
+        <span>git clone --everything-else</span>
+        <span aria-hidden="true">↗</span>
+    </a>
+</section>
+
+</main>
+
+<!-- ============= FOOTER ============= -->
+<footer class="border-t border-violet-500/10 mt-12 py-10 text-center text-xs text-zinc-500">
+    <p>
+        <span class="text-violet-400">$</span> echo "built with go + htmx · &copy; {{.Year}} {{.Name}}"
+        <span class="cursor-blink text-violet-400">_</span>
+    </p>
+</footer>
+
+</body>
+</html>
+
+{{define "section-heading"}}
+<header class="mb-10">
+    <div class="flex items-baseline gap-3 text-xs uppercase tracking-[0.3em] text-violet-400 mb-2">
+        <span class="text-violet-500/50">[{{.Index}}]</span>
+        <span>$ {{.Cmd}}</span>
+    </div>
+    <h2 class="font-display font-bold text-3xl md:text-4xl tracking-tight text-zinc-100">
+        {{.Title}}
+        <span class="text-violet-400">.</span>
+    </h2>
+</header>
+{{end}}
